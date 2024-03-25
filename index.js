@@ -15,14 +15,6 @@ app.use('/api',objectRouter)
 app.use('/api',publicationsRouter)
 
 
-var admin = require("firebase-admin");
-
-var serviceAccount = require("./vuzappcursovaya-firebase-adminsdk-e8ymi-717a6727ea.json");
-
-admin.initializeApp({credential: admin.credential.cert(serviceAccount)});
-
-
-
 app.listen(PORT, () => console.log(`Сервер запущен с портом: ${PORT}`))
 
 
