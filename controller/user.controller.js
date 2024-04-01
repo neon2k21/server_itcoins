@@ -6,11 +6,11 @@ class UserController{
 
     async createUser(req,res){
         
-        const { nickname, login, pass } = req.body
+        const { fio, login, pass,email,token } = req.body
         const sql = (
-            `insert into users (nickname, login, pass, token, role) values (?, ?, ?,"",1);`
+            `insert into users (fio, login, pass,email,token,role,coins) values (?, ?, ?,?,?,1,0);`
         )
-        db.all(sql,[nickname, login, pass], (err,rows) => {
+        db.all(sql,[fio, login, pass,email,token], (err,rows) => {
             if (err) return res.json(err)
             else return res.json(rows)     
         })
@@ -30,7 +30,7 @@ class UserController{
     })
     }
 
-    async getUserNickName(req,res){
+    async getUserFIO(req,res){
         const { id } = req.body
        
         const sql = (
@@ -41,8 +41,6 @@ class UserController{
             else res.json(rows)
     })
     }
-
-
 
     async deleteUser(req,res){
         const { id } = req.body
@@ -67,46 +65,6 @@ class UserController{
         })
     }
 
-    async getFavouriteObject(req,res){
-        const {id} = req.body
-
-
-        const sql = (
-            ` SELECT o.*
-            FROM objects o
-            INNER JOIN users_favourite_objects ufo ON o.id = ufo.object_id
-            WHERE ufo.user = ?;`
-        )
-
-        db.all(sql,[id], (err,rows) => {
-            if (err) return res.json(err)
-            else res.json(rows)
-        })
-
-        
-       
-    }
-
-    async getLikedPubs(req,res){
-        
-        const {id} = req.body
-
-
-        const sql = (
-            ` SELECT p.*
-            FROM publications p
-            INNER JOIN Likes l ON p.id = l.publication_id
-            WHERE l.useradd = ?;`
-        )
-
-        db.all(sql,[id], (err,rows) => {
-            if (err) return res.json(err)
-            else res.json(rows)
-        })
-
-}
-
-
     async setUserAvatar(req,res){
         const {id,avatar} =req.body
         const sql = (
@@ -119,7 +77,23 @@ class UserController{
         })
     }
 
-    
+    async changeUserBalance(req, res){
+        const {id,coins} =req.body
+        const sql = (
+            ` update users set coins=? where id=?;`
+        )
+
+        db.all(sql,[coins, id], (err,rows) => {
+            if (err) return res.json(err)
+            else res.json(rows)
+        })
+    }
+
+    //////admin
+
+    async changeUserGroup(req, res){
+        
+    }
 }
 
 
