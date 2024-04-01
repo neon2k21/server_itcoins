@@ -89,11 +89,7 @@ class UserController{
         })
     }
 
-    //////admin
-
-    async changeUserGroup(req, res){
-        
-    }
+    
 }
 
 
