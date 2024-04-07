@@ -17,13 +17,26 @@ class ItemController{
         
     }   
 
-    async getItem(req,res){
+    async getAllItem(req,res){
         const sql = (
             `select * from items;`
         )
         db.all(sql,[], (err,rows) => {
             if (err) return res.json(err)
-            else res.json(rows)
+            else return res.json(rows)
+    })
+    }
+
+    async getItem(req,res){
+
+        const {id} = req.body
+
+        const sql = (
+            `select * from items where id=?;`
+        )
+        db.all(sql,[id], (err,rows) => {
+            if (err) return res.json(err)
+            else return res.json(rows)
     })
     }
 

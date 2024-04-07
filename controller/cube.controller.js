@@ -29,6 +29,17 @@ class CubeController{
         })
     }
 
+    async renameCube(req,res){
+        const { cube_id, name } = req.body
+        const sql = (
+            `update cube set name=? where id=?; `
+        )
+        db.all(sql,[name, cube_id], (err,rows) => {
+            if (err) return res.json(err)
+            else res.json(rows)
+         })
+    } 
+
    
 }
 
